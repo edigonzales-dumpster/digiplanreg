@@ -2,7 +2,6 @@ package ch.so.agi.digiplanreg.domain;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -27,9 +26,12 @@ public class Geschaeft {
     @NotNull    
     private String titel;
     
+    @NotNull
+    private int gemeinde; // TODO: bag of..
+    
     private String beschreibung;
     
-    @OneToMany(mappedBy = "geschaeft", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "geschaeft", cascade = CascadeType.PERSIST, orphanRemoval = false)
 //    @JoinColumn(name = "geschaeft_id") 
     private List<Dokument> dokumente = new ArrayList<Dokument>();
     
@@ -57,6 +59,14 @@ public class Geschaeft {
         this.titel = titel;
     }
 
+    public int getGemeinde() {
+        return gemeinde;
+    }
+
+    public void setGemeinde(int gemeinde) {
+        this.gemeinde = gemeinde;
+    }
+
     public String getBeschreibung() {
         return beschreibung;
     }
@@ -69,15 +79,20 @@ public class Geschaeft {
         return dokumente;
     }
 
-    public void setDokumente(List<Dokument> dokumente) {
-        this.dokumente = dokumente;
-        for (Dokument dokument : dokumente) {
-            dokument.setGeschaeft(this);
-        }
-    }
+//    public void setDokumente(List<Dokument> dokumente) {
+//        this.dokumente = dokumente;
+//        for (Dokument dokument : dokumente) {
+//            dokument.setGeschaeft(this);
+//        }
+//    }
     
     public void addDokument(Dokument dokument) {
         dokumente.add(dokument);
         dokument.setGeschaeft(this);
+    }
+    
+    public void removeDokument(Dokument dokument) {
+        dokumente.remove(dokument);
+        dokument.setGeschaeft(null);
     }
 }

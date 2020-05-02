@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+	<title>DIGIPLANREG • Hello World</title>
+</h:head>
+
+<h:body>
+	<h:form id="geschaefte">
+
+		<p:growl id="growl" sticky="true" />
+		<p:dataTable id="geschaeftList" var="geschaeft" value="#{geschaefteBacking.geschaefte}">
+			<p:column headerText="Id">
+				<h:outputText value="#{geschaeft.id}" />
+			</p:column>
+
+			<p:column headerText="Titel">
+				<p:inputText id="titelInput" value="#{geschaeft.titel}" />
+			</p:column>
+
+			<p:column headerText="Nummer">
+				<p:inputText id="nummerInput" value="#{geschaeft.nummer}" />
+			</p:column>
+
+			<p:column headerText="Beschreibung">
+				<p:inputText id="beschreibungInput" value="#{geschaeft.beschreibung}" />
+			</p:column>
+
+<!-- 
+			<p:column headerText="Day of birth">
+				<h:outputText value="#{customer.dayOfBirth}">
+					<f:convertDateTime type="localDate" pattern="dd.MM.yyyy" />
+				</h:outputText>
+			</p:column>
+-->
+
+			<p:column>
+				<p:commandButton update="geschaeftList" value="Delete"
+					icon="pi pi-times"
+					action="#{geschaefteBacking.delete(geschaeft)}"
+					styleClass="ui-priority-primary">
+				</p:commandButton>
+			</p:column>
+		</p:dataTable>
+		<br />
+		<p:commandButton style="float: right" id="save" value="Save"
+			styleClass="ui-priority-primary" action="#{geschaefteBacking.update}"
+			icon="pi pi-save" update="growl">
+			<f:ajax execute="@form" render="@form" />
+		</p:commandButton>
+
+	</h:form>
+
+	<h:form id="add">
+		<h:panelGrid columns="3" cellpadding="5" style="margin: 0 auto;">
+			<p:outputLabel for="titel" value="Titel" />
+			<p:inputText id="titel" value="#{geschaefteBacking.geschaeft.titel}" />
+			<p:message for="titel" />
+
+			<p:outputLabel for="nummer" value="Nummer" />
+			<p:inputText id="nummer" value="#{geschaefteBacking.geschaeft.nummer}">
+			</p:inputText>
+			<p:message for="nummer" />
+			
+            <p:outputLabel for="beschreibung" value="Beschreibung" />
+            <p:inputText id="beschreibung" value="#{geschaefteBacking.geschaeft.beschreibung}">
+            </p:inputText>
+            <p:message for="beschreibung" />
+
+<!-- 
+			<p:outputLabel for="dayOfBirth" value="Day of birth" />
+			<p:calendar id="dayOfBirth"
+				value="#{customersBacking.customer.dayOfBirth}" pattern="dd.MM.yyyy"
+				mask="true">
+				<f:convertDateTime type="localDate" pattern="dd.MM.yyyy" />
+			</p:calendar>
+			<p:message for="dayOfBirth" />
+ -->
+			<p:commandButton update="@form :geschaefte:geschaeftList" value="Add"
+				action="#{geschaefteBacking.add}">
+			</p:commandButton>
+		</h:panelGrid>
+	</h:form>
+
+</h:body>
+</html>

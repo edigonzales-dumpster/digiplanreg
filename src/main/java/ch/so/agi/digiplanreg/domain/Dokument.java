@@ -1,5 +1,7 @@
 package ch.so.agi.digiplanreg.domain;
 
+import java.time.LocalDate;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -27,6 +29,12 @@ public class Dokument {
     private String beschreibung;
     
     private String url;
+    
+    private String nummer;
+    
+    private LocalDate datum;
+    
+    private String art; // TODO enum.
 
     public Long getId() {
         return id;
@@ -60,11 +68,47 @@ public class Dokument {
         this.url = url;
     }
 
+    public String getNummer() {
+        return nummer;
+    }
+
+    public void setNummer(String nummer) {
+        this.nummer = nummer;
+    }
+
+    public LocalDate getDatum() {
+        return datum;
+    }
+
+    public void setDatum(LocalDate datum) {
+        this.datum = datum;
+    }
+
     public Geschaeft getGeschaeft() {
         return geschaeft;
     }
 
     public void setGeschaeft(Geschaeft geschaeft) {
         this.geschaeft = geschaeft;
+    }
+    
+    public String getArt() {
+        return art;
+    }
+
+    public void setArt(String art) {
+        this.art = art;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Geschaeft )) return false;
+        return id != null && id.equals(((Geschaeft) o).getId());
+    }
+ 
+    @Override
+    public int hashCode() {
+        return 31;
     }
 }
